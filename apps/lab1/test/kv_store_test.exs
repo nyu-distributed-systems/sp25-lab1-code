@@ -22,14 +22,14 @@ defmodule KVStoreTests do
     IntroLab.reliable_send(server, {:get, :a}, 3, @send_timeout)
 
     case IntroLab.reliable_receive() do
-      {^server, m} -> assert m == 1
+      {^server, m} -> assert m == {:a, 1}
       _ -> assert false
     end
 
     IntroLab.reliable_send(server, {:get, :b}, 4, @send_timeout)
 
     case IntroLab.reliable_receive() do
-      {^server, m} -> assert m == 22
+      {^server, m} -> assert m == {:b, 22}
       _ -> assert false
     end
 
