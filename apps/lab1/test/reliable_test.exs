@@ -27,8 +27,8 @@ defmodule ReliableTests do
     Emulation.init()
 
     # Add a fuzzer to drop packets
-    pong = spawn(:waiter, fn -> timeout_receiver(:sender) end)
-    spawn(:sender, fn -> reliable_sender_timeout(:waiter) end)
+    spawn(:waiter, fn -> timeout_receiver(:sender) end)
+    pong = spawn(:sender, fn -> reliable_sender_timeout(:waiter) end)
 
     # Wait for pong to die. This function is running
     # **outside** of the emulation environment.
@@ -63,8 +63,8 @@ defmodule ReliableTests do
   test "Send counts are correct" do
     Emulation.init()
 
-    pong = spawn(:waiter, fn -> reliable_receiver(:sender) end)
-    spawn(:sender, fn -> reliable_sender_count(:waiter) end)
+    spawn(:waiter, fn -> reliable_receiver(:sender) end)
+    pong = spawn(:sender, fn -> reliable_sender_count(:waiter) end)
 
     handle = Process.monitor(pong)
     Process.send_after(self(), :timeout, 60_000)
