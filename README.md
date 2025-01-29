@@ -151,15 +151,12 @@ function. Let us look at a few things above this function:
   the documentation in a formatted manner do the following:
   
   ```
-
-> # Go to the apps/lab1 directory
+  > # Go to the apps/lab1 directory
   >
   > mix docs # This will build your docs
   >
-> # Now if you go to build/index.html you will have you
-
-    # code laid out in pretty HTML.
-
+  > # Now if you go to build/index.html you will have your
+    # documentation laid out in pretty HTML.
   ```
 
 * We also specify the arguments and return value of the function using the
