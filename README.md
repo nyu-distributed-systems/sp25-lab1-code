@@ -1,4 +1,4 @@
-**NOTE:** [Hand-in instructions](#handing-in) are at the end of this document. 
+**NOTE:** [Hand-in instructions](#handing-in) are at the end of this document.
 It is very important you follow these instructions. Failure to do so might result
 in receiving 0 on this lab.
 
@@ -17,7 +17,7 @@ in receiving 0 on this lab.
 
 * You need to first install all the project dependencies. To do so
    run the following command from the repository root:
-    
+
     ```
     > mix deps.get
     > mix
@@ -28,7 +28,7 @@ in receiving 0 on this lab.
     on the project these warnings will disappear.
 
 * Test to make sure things look correct. Again from the project root run
-   
+
    ```
    > mix test
    ```
@@ -36,35 +36,39 @@ in receiving 0 on this lab.
    You should get output of the following form:
 
    ```
-	==> emulation
-	.....
 
-	Finished in 0.2 seconds
-	5 tests, 0 failures
+ ==> emulation
+ .....
 
-	Randomized with seed 567507
-	==> lab1
+ Finished in 0.2 seconds
+ 5 tests, 0 failures
 
-	LossfreeCounterTests
-	  * test check that repeated gets work work (0.00ms)
+ Randomized with seed 567507
+ ==> lab1
 
-	  1) test check that repeated gets work work (LossfreeCounterTests)
-		 apps/lab1/test/lossfree_counter_test.exs:38
-		 ** (EXIT from #PID<0.325.0>) an exception was raised:
-			 ** (RuntimeError) Not implemented
-				 (lab1 0.1.0) lib/intro_lab.ex:63: IntroLab.lossfree_counter/1
+ LossfreeCounterTests
 
-	  * test Check that decrements work (0.00ms)
+* test check that repeated gets work work (0.00ms)
 
-	  2) test Check that decrements work (LossfreeCounterTests)
-		 apps/lab1/test/lossfree_counter_test.exs:70
-		 ** (EXIT from #PID<0.336.0>) an exception was raised:
-			 ** (RuntimeError) Not implemented
-				 (lab1 0.1.0) lib/intro_lab.ex:67: IntroLab.lossfree_counter/1
+   1) test check that repeated gets work work (LossfreeCounterTests)
+   apps/lab1/test/lossfree_counter_test.exs:38
+   **(EXIT from #PID<0.325.0>) an exception was raised:
+    ** (RuntimeError) Not implemented
+     (lab1 0.1.0) lib/intro_lab.ex:63: IntroLab.lossfree_counter/1
 
-	  * test check that increments work (0.00ms)
+* test Check that decrements work (0.00ms)
+
+   2) test Check that decrements work (LossfreeCounterTests)
+   apps/lab1/test/lossfree_counter_test.exs:70
+   **(EXIT from #PID<0.336.0>) an exception was raised:
+    ** (RuntimeError) Not implemented
+     (lab1 0.1.0) lib/intro_lab.ex:67: IntroLab.lossfree_counter/1
+
+* test check that increments work (0.00ms)
     ...
+
    ```
+
   Again, you will fix these tests as you work through the lab.
 
 * You are now ready to work on the lab. All of the code you need to edit
@@ -98,7 +102,6 @@ in receiving 0 on this lab.
   the moduledoc for any template code we provide since they include instructions
   on how to work through the lab.
 
-
 # Your First Distributed System: A Counter
 
 ## Learning Objectives
@@ -110,6 +113,7 @@ The main things you need to learn from this part of the lab is
 * Build your first distributed system.
 
 ## Desired Semantics
+
 You are going to construct an integer counter process which works as follows:
 
 * When the process starts it initialize an integer referred to as the counter from
@@ -130,29 +134,35 @@ In Elixir it is common to use [atoms](https://elixir-lang.org/getting-started/ba
 * [`@get`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L34) which maps to `:get`
 
 The logic executed by the counter process (we will return to the question of how
-this process is created shortly) is specified by the [`lossfree_counter/0`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L44) 
+this process is created shortly) is specified by the [`lossfree_counter/0`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L44)
 function. Let us look at a few things above this function:
 
 * First note that this function is exported, i.e., it can be called from outside
   the module. This is because we use `def lossfree_counter` to define this function.
-  See [Modules and function](https://elixir-lang.org/getting-started/modules-and-functions.html) 
+  See [Modules and function](https://elixir-lang.org/getting-started/modules-and-functions.html)
   in the Elixir tutorial if this seems strange. You should neither remove nor change
   the function signature for any **exported** functions in this class. Such functions
   are considered a part of the interface exposed and should not be changed.
 * Since this is a public (exported) function we can provide documentation about it.
-  This is done using the [`@doc` string](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L36) above. 
+  This is done using the [`@doc` string](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L36) above.
   You **should** write such
   documentation for your own code too, recording anything you would want your future
   self to remember if you need to change the code in the future. If you want to read
   the documentation in a formatted manner do the following:
   
   ```
-  > # Go to the apps/lab1 directory
+
+> # Go to the apps/lab1 directory
+  >
   > mix docs # This will build your docs
-  > # Now if you go to build/index.html you will have you
+  >
+> # Now if you go to build/index.html you will have you
+
     # code laid out in pretty HTML.
+
   ```
-* We also specify the arguments and return value of the function using the 
+
+* We also specify the arguments and return value of the function using the
   [`@spec`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L43) line. Elixir does not enforce the `@spec` line but there is
   tooling which can use this for analysis. It is also used by the documentation
   tool to determine what your function accepts, etc. In this case the `@spec`
@@ -162,7 +172,7 @@ function. Let us look at a few things above this function:
 * Observe that all the function does is call [`lossfree_counter/1`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L45) with 0
   as an argument. This is a very common pattern in Elixir and other functional
   languages, where function arguments and recursion is used to store and update
-  state. 
+  state.
   > Statements such as `a = 5` or function arguments such as `x` in `def add(x)`
   > do not define "variables" in functional languages. The statement `a = 5` just
   > says that the compiler can replace occurrences of `a` in the next statements
@@ -176,9 +186,10 @@ function. Let us look at a few things above this function:
   > labs.
 
 We will skip `lossfree_counter/1`, which is the function you need to fill out for
-the moment, and return to it in a little. Let us instead look at 
+the moment, and return to it in a little. Let us instead look at
 [`test_lossfree_counter/0`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L71) which shows a case where we use the counter process.
 Let us look more closely at this function:
+
 * First, please do not change any functions named `test_*` in the lab template code.
   We provide these functions to show you how things are meant to be used. You are
   **encouraged** to write additional functions of this form if you want, just do not
@@ -188,46 +199,50 @@ Let us look more closely at this function:
   used by the class. You should read its [documentation](https://cs.nyu.edu/~apanda/classes/fa20/emdocs/Emulation.html)
   if you want to learn more about the module.
 * [Next](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L74) the function [spawns](https://cs.nyu.edu/~apanda/classes/fa20/emdocs/Emulation.html#spawn/2)
-   a **process** named `:counter`. The `:counter` function executes 
+   a **process** named `:counter`. The `:counter` function executes
    `lossfree_counter/0`, which we talked about above. The syntax `&lossfree_counter/0`
    is used in Elixir to pass the function (rather than its result) as an argument to
    the `spawn` call.
 * [Next](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L75) we use [`send/2`](https://cs.nyu.edu/~apanda/classes/fa20/emdocs/Emulation.html#send/2)
    to send messages to the `:counter` process started above.
-*  Once we send the `@get` message, we use [`receive`](https://elixir-lang.org/getting-started/processes.html#send-and-receive) 
-   to receive a response with the current value of the counter, and return true or 
+* Once we send the `@get` message, we use [`receive`](https://elixir-lang.org/getting-started/processes.html#send-and-receive)
+   to receive a response with the current value of the counter, and return true or
    false depending on whether it is 0 or not.
    > *Note 1:* As we will see shortly `receive` works differently depending on whether
    > it is executed within the emulation environment or not. Code executed within the
    > emulation environment must be called a function running in a `spawn`ed process.
    > Anything else is running outside the emulation environment.
-   
+
    > *Note 2:* As is common in most functional (and even many imperative) languages,
    > Elixir functions return the result of the last statement executed by a function.
    > As we will discuss next, `after` is a special form, and hence the last real
    > statement executed in this case is `v == 0`, which is what is returned by the
    > function.
-*  Function execution can fail for a variety of reasons in Elixir. The `after`
+* Function execution can fail for a variety of reasons in Elixir. The `after`
    statement is a way to ensure that some code is always run, regardless of
    whether the function completes correctly or not. This is similar to the `finally`
-   clause in many other languages. In this function we call 
+   clause in many other languages. In this function we call
    [`Emulation.terminate/0`](https://cs.nyu.edu/~apanda/classes/fa20/emdocs/Emulation.html#terminate/0)
-   which clears up emulation state. As we note above statements executed in the 
+   which clears up emulation state. As we note above statements executed in the
    `after` clause act as if they were run **after** the function was done executing,
     and do not alter the return value.
 
 Now that we have seen this function, let us try running it to see what happens. To do this, go to `apps/lab1` and:
 
 ```
+
 > mix run -e 'IntroLab.test_lossfree_counter()'
+
 ```
 
 This should produce output similar to:
 
 ```
-** (EXIT from #PID<0.94.0>) an exception was raised:
+
+**(EXIT from #PID<0.94.0>) an exception was raised:
     ** (RuntimeError) Not implemented
         (lab1 0.1.0) lib/intro_lab.ex:54: IntroLab.lossfree_counter/1
+
 ```
 
 OK, so we need to implement things to fix this.
@@ -236,23 +251,26 @@ In the above, `mix run -e` takes an Elixir **expression** and executes it in the
 current application. For example:
 
 ```
+
 ❯ mix run -e 'IO.puts(1  + 1)'
 2
+
 ```
 
-In the snippet above we had `mix run -e` compute and then print (using 
+In the snippet above we had `mix run -e` compute and then print (using
 [`IO.puts`](https://hexdocs.pm/elixir/IO.html#puts/2)) the result of adding 1 and 1.
 
 Elixir also offers an interactive REPL (read-eval-print-loop) that you
 can use for running and testing things. To use the REPL run:
 
 ```
+
 > iex -S mix
 Erlang/OTP 23 [erts-11.0.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [hipe] [dtrace]
 
 Interactive Elixir (1.10.4) - press Ctrl+C to exit (type h() ENTER for help)
 iex(1)> IntroLab.test_lossfree_counter()
-** (EXIT from #PID<0.215.0>) shell process exited with reason: an exception was raised:
+**(EXIT from #PID<0.215.0>) shell process exited with reason: an exception was raised:
     ** (RuntimeError) Not implemented
         (lab1 0.1.0) lib/intro_lab.ex:54: IntroLab.lossfree_counter/1
 
@@ -264,12 +282,15 @@ iex(1)>
 
 nil
 iex(2)>
+
 ```
+
 ## Implementing the Code
 
 Now we can turn to implementing your code, and completing this task. To do so
 you will need to add code to [`lossfree_counter/1`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L49), which (from above) is called
 by `lossfree_counter/0`. In this function observe that:
+
 * There is no `@doc` string, this is because it is a private (defp)
   function, and Elixir does not allow `@doc` strings.
 * We begin by waiting to `receive` a message using [`receive do`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L50).
@@ -286,21 +307,25 @@ by `lossfree_counter/0`. In this function observe that:
   a `Not implemented` error, which is indeed what you ran into above. *You should
   replace this `raise` with your code.
 * To see how this might work look at the `@get` code, which does not change the
-  counter but sends its current value and [recurses](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L62) so 
+  counter but sends its current value and [recurses](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L62) so
   the function continues running. In the `@inc` and `@dec` case you should not
   send a message, but should recurse after changing the value appropriately.
 
 ### Print debugging
+
 We are just briefly going to consider how you might debug a problem. For example
 consider the case where you want to print the value sent by `@get` and its receiver.
 To do so you can change the `{sender, @get}` branch to add the following code anywhere
 **before** the recursive call to `lossfree_counter/1`:
 
 ```
+
 IO.puts("Sending #{inspect(sender)} value #{current}")
+
 ```
 
 There are several things to consider in this line:
+
 * `IO.puts`, as we noted above, prints to standard out.
 * Elixir strings support [interpolation](https://hexdocs.pm/elixir/String.html#module-interpolation).
   What this means is that anything that appears within `#{}` in a string is treated
@@ -317,11 +342,14 @@ hand your code in. In general, you should minimize the amount of debugging outpu
 you send to us.
 
 ### Testing this part
+
 We provide you with tests to check the correctness of your labs. You can run
 tests for the entire lab by going to `apps/lab1` and running
 
 ```
+
 > mix test
+
 ```
 
 However, this tests all parts of the lab, and it might be hard for you to discern
@@ -330,7 +358,9 @@ the test code so you can test each portion independently. To test just the count
 run:
 
 ```
+
 > mix test test/lossfree_counter_test.exs
+
 ```
 
 At present there are four tests in that file, if you can pass all 4 you should
@@ -346,12 +376,15 @@ be in good shape on this part of the lab.
 > how. Please **submit** any additional tests you add.
 
 ### Code formatting and Linting
+
 Formatting your code is useful for readability, and might even help you identify
 bugs quicker. All labs are set up to provide you tools for automatic formatting. To
 do so go to `apps/lab1` and run
 
 ```
+
 > mix format
+
 ```
 
 We also support a linter that can help you both find all TODO's and find any code
@@ -359,7 +392,9 @@ problems. **We strongly recommend using the linter periodically** and fixing all
 linting bugs before submission. To run the linter go to `apps/lab1` and run:
 
 ```
+
 > mix credo --strict
+
 ```
 
 # Part 2: Build a Distributed Protocol for Reliable Message Delivery
@@ -377,11 +412,11 @@ The main things you need to learn from this part of the lab is
 * How drop probability impacts the number of times messages have to be resent.
 
 ## Desired Semantics
-In this part of the lab you need to build functions for sending 
+
+In this part of the lab you need to build functions for sending
 ([`reliable_send`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L106))
 and receiving ([`reliable_receive`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L120))
 messages over an asynchronous network, i.e., one that can randomly delay or drops messages.
-
 
 In building this you should try to limit the number of messages you send, specifically:
 
@@ -408,11 +443,12 @@ before being signaled by the receiver, or the atom `:notok` if the send timed ou
 
 The semantics above require receiving timeouts. The emulation environment provides a call for
 setting timers, [`Emulation.timer/1`](https://cs.nyu.edu/~apanda/classes/fa20/emdocs/Emulation.html#timer/1),
-that can be used to set a timer. You can cancel a previously set timer using the 
+that can be used to set a timer. You can cancel a previously set timer using the
 [`Emulation.cancel_timer/1`](https://cs.nyu.edu/~apanda/classes/fa20/emdocs/Emulation.html#cancel_timer/1)
 call. Below we show how you might use both:
 
 ```
+
 defp timer_test do
   t = Emulation.timer(10)
   receive do
@@ -428,6 +464,7 @@ defp timer_test do
 end
 
 spawn(:timer_proc, timer_test)
+
 ```
 
 You need to use this in your implementation.
@@ -435,12 +472,12 @@ You need to use this in your implementation.
 ## Nonce
 
 Observe that the `reliable_send` function accepts a `nonce` as an argument. You
-might wonder about why? 
+might wonder about why?
 
 Observe that a sender might resend a message **after**
-the receiver has sent its response. In this case, if the sender calls 
+the receiver has sent its response. In this case, if the sender calls
 `reliable_send` a second time, it needs to be careful in associating acknowledgments
-with particular messages. 
+with particular messages.
 
 The nonce gives you a way to do this: we guarantee that callers will supply
 a unique nonce message. You should use the nonce to handle the case described above.
@@ -454,12 +491,12 @@ network to test your code. The operative line that does this is:
 
 Fuzzing is a testing technique that we adopt here for your labs, the emulation environment is designed to allow different
 types of fuzzing (and a few other features we might use later). In this case we set the environment up so that packets have
-a 20% chance of being dropped, and experience a mean delay of 10ms. We use an exponential distribution for delays. This is 
+a 20% chance of being dropped, and experience a mean delay of 10ms. We use an exponential distribution for delays. This is
 a pretty bad network to be operating in.
 
 ## Anonymous functions and closures
 
-The `test_reliable_send_and_receive` function also shows an 
+The `test_reliable_send_and_receive` function also shows an
 [example](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L160)
 where we use an anonymous function created with `fn`. You are going to repeatedly
 use this pattern: `spawn/2` expects a 0-arity function (i.e., one that takes no
@@ -470,7 +507,7 @@ play around with `fn`'s to understand how they work.
 
 ## Measuring the impact of drops on performance
 
-We have also provided a function 
+We have also provided a function
 [`measure_pings_at_drop_rate/2`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L224) that
 can be used to measure the number of retries it takes to get a packet across
 as you change the probability of dropping a packet. The function
@@ -495,10 +532,13 @@ Also report any conclusions you can draw from these observations.
 The unit tests for this portion of the lab are contained in `test/reliable_test.exs` and can be run by calling
 
 ```
+
 > mix test test/reliable_test.exs
+
 ```
 
 # Part 3: Combining the previous two parts to build a Key Value Store
+
 The final portion of this uses the `reliable_send` and `reliable_receive` functions
 you developed previously to create a key-value store. This is a hashmap (or a
 dictionary) accessible over a network. Key-value stores such as Redis and Cassandra
@@ -506,16 +546,18 @@ are widely used in practice, and here you are going to construct a relatively si
 one.
 
 ## Learning Goals
+
 * Use the reliable send and receive protocol to build an application.
 * Learn how to use maps in Elixir.
 
 ## Desired Semantics
 
-Complete the key-value store in 
+Complete the key-value store in
 [`reliable_kv_server/2`](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L259)  
 so that a process spawned with this function:
+
 * Maintains a hashmap in the `state` argument to `reliable_kv_server/2`.
-* Uses the `count` argument as a nonce when using `reliable_send`. Remember that in 
+* Uses the `count` argument as a nonce when using `reliable_send`. Remember that in
   order to do so you must increment `count` every time you use `reliable_send`.
 * When it receives a `{@set, key, value}` message, it updates the `state` hashmap
   so that `key` is associated with `value`.
@@ -526,11 +568,12 @@ so that a process spawned with this function:
 You should reuse `reliable_send` and `reliable_receive` when working on this part.
 
 ## Maps in Elixir
+
 Completing this part of the project requires that you use Elixir's
 [Map](https://hexdocs.pm/elixir/Map.html). We are going to end up using this
-in future projects, so it is good to gain some familiarity. 
+in future projects, so it is good to gain some familiarity.
 
-The stencil code already constructs new Map for you in 
+The stencil code already constructs new Map for you in
 [reliable_kv_server/0](https://github.com/nyu-distributed-systems/fa20-lab1-code/blob/master/apps/lab1/lib/intro_lab.ex#L255)
 where `%{}` is used to create a new map.
 
@@ -555,13 +598,17 @@ the future.
 If you want to test just this portion of the lab use
 
 ```
+
 > mix test test/kv_store_test.exs
+
 ```
 
 If you have been doing things in order, at this point you can use:
 
 ```
+
 > mix test
+
 ```
 
 Which will run all tests. You should ensure that all tests pass before
@@ -572,7 +619,6 @@ handing in your work.
 **WARN WARN WARN** PLEASE READ THESE INSTRUCTIONS CAREFULLY. YOU MAY **RECEIVE
 A 0 (ZERO) IF YOU DO NOT**, EVEN IF YOU COMPLETE EVERYTHING THUS FAR.
 
-
 To handin this assignment:
 
 * First make sure `mix test` shows that you pass all tests. If not be aware
@@ -582,8 +628,7 @@ To handin this assignment:
   agreeing to the course collaboration policy, and citing your sources.
 * Commit and push all your changes.
 * Use `git rev-parse --short HEAD` to get a commit hash for your changes.
-* Fill out the [submission form](https://forms.gle/zwic4BRiCDhAKsy4A) with
-  all of the information requested.
+* Fill out the [submission form](https://forms.gle/XE7b6v8SHv6iG1CJ6).
 
 We will be using information in the submission form to grade your lab, determine
 late days, etc. It is therefore crucial that you fill this out correctly.
